@@ -1,17 +1,24 @@
 package com.diajarkoding.timefit.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.diajarkoding.timefit.presentation.screens.detail.ScheduleDetailScreen
+import com.diajarkoding.timefit.presentation.screens.detail.ScheduleDetailViewModel
 import com.diajarkoding.timefit.presentation.screens.home.HomeScreen
 import com.diajarkoding.timefit.presentation.screens.splash.SplashScreen
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
     object Home : Screen("home")
-    object Detail : Screen("detail/{scheduleName}") {
-        fun createRoute(scheduleName: String) = "detail/$scheduleName"
+    object Detail : Screen("detail/{scheduleId}") {
+        fun createRoute(scheduleId: Int) = "detail/$scheduleId"
     }
 }
 
@@ -26,7 +33,22 @@ fun AppNavigation() {
             SplashScreen(navController)
         }
         composable(Screen.Home.route) {
-            HomeScreen()
+            HomeScreen(navController)
+        }
+        composable(
+            Screen.Detail.route,
+            arguments = listOf(
+                navArgument("scheduleId") {
+                    type = NavType.IntType
+                }
+            )
+        ) {
+            val viewModel: ScheduleDetailViewModel = hiltViewModel()
+            val schedule by viewModel.state.collectAsState()
+            ScheduleDetailScreen(
+                scheduleName = schedule?.name,
+                navController = navController
+            )
         }
     }
 }

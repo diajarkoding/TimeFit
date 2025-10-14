@@ -1,6 +1,7 @@
 package com.diajarkoding.timefit.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,6 +25,7 @@ import com.diajarkoding.timefit.data.local.Schedule
 @Composable
 fun WorkoutScheduleItem(
     schedule: Schedule,
+    onClick: () -> Unit,
     onDelete: () -> Unit
 ) {
     Row(
@@ -31,12 +33,13 @@ fun WorkoutScheduleItem(
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
             .background(MaterialTheme.colorScheme.surface)
-            .padding(horizontal = 24.dp, vertical = 20.dp),
+            .clickable(onClick = onClick)
+            .padding(start = 24.dp, end = 12.dp, top = 20.dp, bottom = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
             text = schedule.name,
+            modifier = Modifier.weight(1f),
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
             color = MaterialTheme.colorScheme.onSurface

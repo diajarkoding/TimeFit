@@ -19,4 +19,8 @@ class ScheduleRepositoryImpl @Inject constructor(
     suspend fun deleteSchedule(schedule: Schedule) {
         dao.deleteSchedule(schedule)
     }
+
+    suspend fun getScheduleById(id: Int): Schedule? {
+        return dao.getScheduleById(id)
+    }
 }

@@ -17,4 +17,7 @@ interface ScheduleDao {
 
     @Query("SELECT * FROM schedules ORDER BY id DESC")
     fun getAllSchedules(): Flow<List<Schedule>>
+
+    @Query("SELECT * FROM schedules WHERE id = :id")
+    suspend fun getScheduleById(id: Int): Schedule?
 }

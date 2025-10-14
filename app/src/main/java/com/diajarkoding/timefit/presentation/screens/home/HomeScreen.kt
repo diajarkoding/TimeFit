@@ -33,9 +33,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.diajarkoding.timefit.data.local.Schedule
 import com.diajarkoding.timefit.presentation.components.CreateScheduleDialog
 import com.diajarkoding.timefit.presentation.components.WorkoutScheduleItem
+import com.diajarkoding.timefit.presentation.navigation.Screen
 import com.diajarkoding.timefit.presentation.ui.theme.TimeFitTheme
 
 val dummyWorkoutSchedule = listOf(
@@ -48,6 +51,7 @@ val dummyWorkoutSchedule = listOf(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    navController: NavController,
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
@@ -92,6 +96,7 @@ fun HomeScreen(
             items(state.schedules, key = {it.id}) { schedule ->
                 WorkoutScheduleItem(
                     schedule = schedule,
+                    onClick = { navController.navigate(Screen.Detail.createRoute(schedule.id))},
                     onDelete = { viewModel.onEvent(HomeScreenEvent.OnDeleteSchedule(schedule)) }
                 )
 
@@ -105,7 +110,8 @@ fun HomeScreen(
 @Preview
 @Composable
 fun HomeScreenPreview(showBackground: Boolean = true) {
+    val navController = rememberNavController()
     TimeFitTheme(darkTheme = true) {
-        HomeScreen()
+        HomeScreen(navController)
     }
 }
