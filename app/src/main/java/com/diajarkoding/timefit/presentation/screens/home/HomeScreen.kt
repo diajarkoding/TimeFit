@@ -11,8 +11,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -32,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.diajarkoding.timefit.data.local.Schedule
+import com.diajarkoding.timefit.presentation.components.CreateScheduleDialog
 import com.diajarkoding.timefit.presentation.components.WorkoutScheduleItem
 import com.diajarkoding.timefit.presentation.ui.theme.TimeFitTheme
 
@@ -49,6 +52,15 @@ fun HomeScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
+    if (state.isCreateDialogOpen) {
+        CreateScheduleDialog(
+            newScheduleName = state.newScheduleName,
+            onNameChange = { viewModel.onEvent(HomeScreenEvent.OnScheduleNameChange(it)) },
+            onCreate = { viewModel.onEvent(HomeScreenEvent.OnCreateSchedule) },
+            onDismiss = { viewModel.onEvent(HomeScreenEvent.OnDismissCreateDialog) }
+        )
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -57,6 +69,16 @@ fun HomeScreen(
                     containerColor = MaterialTheme.colorScheme.surface,
                 )
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {viewModel.onEvent(HomeScreenEvent.OnShowCreateDialog)}
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = "Create Schedule"
+                )
+            }
         }
     ) {
         paddingValues ->
@@ -67,7 +89,7 @@ fun HomeScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(state.schedules) { schedule ->
+            items(state.schedules, key = {it.id}) { schedule ->
                 WorkoutScheduleItem(
                     schedule = schedule,
                     onDelete = { viewModel.onEvent(HomeScreenEvent.OnDeleteSchedule(schedule)) }
