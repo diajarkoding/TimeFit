@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.diajarkoding.timefit.data.local.Schedule
+import com.diajarkoding.timefit.presentation.components.WorkoutScheduleItem
 import com.diajarkoding.timefit.presentation.ui.theme.TimeFitTheme
 
 val dummyWorkoutSchedule = listOf(
@@ -77,37 +78,7 @@ fun HomeScreen(
     }
 }
 
-@Composable
-fun WorkoutScheduleItem(
-    schedule: Schedule,
-    onDelete: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.surface)
-            .padding(horizontal = 24.dp, vertical = 20.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = schedule.name,
-            fontWeight = FontWeight.Bold,
-            fontSize = 18.sp,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-        IconButton(
-            onClick = onDelete
-        ) {
-            Icon(
-                imageVector = Icons.Default.Delete,
-                contentDescription = "Delete schedule",
-                tint = MaterialTheme.colorScheme.error
-            )
-        }
-    }
-}
+
 
 @Preview
 @Composable
