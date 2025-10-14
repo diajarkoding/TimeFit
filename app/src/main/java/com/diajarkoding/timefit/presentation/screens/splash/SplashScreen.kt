@@ -1,4 +1,4 @@
-package com.diajarkoding.timefit.presentation.screen.splash
+package com.diajarkoding.timefit.presentation.screens.splash
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import com.diajarkoding.timefit.presentation.navigation.Screen
 import com.diajarkoding.timefit.presentation.ui.theme.TimeFitTheme
 import kotlinx.coroutines.delay
 
@@ -20,6 +21,12 @@ fun SplashScreen(navController: NavController) {
 
     LaunchedEffect(key1 = true) {
         delay(2000L)
+
+        navController.navigate(Screen.Home.route) {
+            popUpTo(Screen.Splash.route){
+                inclusive = true
+            }
+        }
     }
 
     Box(
@@ -29,7 +36,7 @@ fun SplashScreen(navController: NavController) {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Splash Screen",
+            text = "TimeFit",
             style = MaterialTheme.typography.displayLarge,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground
