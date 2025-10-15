@@ -20,4 +20,13 @@ interface ScheduleDao {
 
     @Query("SELECT * FROM schedules WHERE id = :id")
     suspend fun getScheduleById(id: Int): Schedule?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertExercise(exercise: Exercise)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun deleteExercise(exercise: Exercise)
+
+    @Query("SELECT * FROM exercises WHERE scheduleId = :scheduleId ORDER BY id DESC")
+    fun getExercisesByScheduleId(scheduleId: Int): Flow<List<Exercise>>
 }

@@ -43,10 +43,7 @@ fun AppNavigation() {
                 }
             )
         ) {
-            val viewModel: ScheduleDetailViewModel = hiltViewModel()
-            val schedule by viewModel.state.collectAsState()
             ScheduleDetailScreen(
-                scheduleName = schedule?.name,
                 navController = navController
             )
         }

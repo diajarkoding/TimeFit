@@ -1,5 +1,6 @@
 package com.diajarkoding.timefit.data.repository
 
+import com.diajarkoding.timefit.data.local.Exercise
 import com.diajarkoding.timefit.data.local.Schedule
 import com.diajarkoding.timefit.data.local.ScheduleDao
 import kotlinx.coroutines.flow.Flow
@@ -23,4 +24,16 @@ class ScheduleRepositoryImpl @Inject constructor(
     suspend fun getScheduleById(id: Int): Schedule? {
         return dao.getScheduleById(id)
     }
+
+    fun getExercisesByScheduleId(scheduleId: Int) = dao.getExercisesByScheduleId(scheduleId)
+
+    suspend fun insertExercise(exercise: Exercise) {
+        dao.insertExercise(exercise)
+    }
+
+    suspend fun deleteExercise(exercise: Exercise) {
+        dao.deleteExercise(exercise)
+    }
+
+
 }

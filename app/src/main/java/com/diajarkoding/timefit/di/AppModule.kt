@@ -19,7 +19,9 @@ object AppModule {
             app,
             TimeFitDatabase::class.java,
             "timefit_db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     @Provides
