@@ -6,8 +6,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
@@ -111,6 +113,8 @@ fun AddExerciseDialog(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
+    val scrollState = rememberScrollState()
+
     val filteredExercises = remember(state.exercisesSearchQuery) {
         if (state.exercisesSearchQuery.isBlank()) {
             DummyData.exerciseList
@@ -125,7 +129,9 @@ fun AddExerciseDialog(
         onDismissRequest = { onEvent(ScheduleDetailEvent.OnDismissAddExerciseDialog) },
         title = { Text("Add New Exercise") },
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Column(
+                modifier = Modifier.verticalScroll(scrollState),
+                verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 // Dropdown untuk Nama Latihan
                 ExposedDropdownMenuBox(
                     expanded = expanded,
@@ -146,7 +152,8 @@ fun AddExerciseDialog(
                     if (filteredExercises.isNotEmpty()) {
                         ExposedDropdownMenu(
                             expanded = expanded,
-                            onDismissRequest = { expanded = false }
+                            onDismissRequest = { expanded = false },
+                            modifier = Modifier.heightIn(max = 250.dp)
                         ) {
                             filteredExercises.forEach { exerciseName ->
                                 DropdownMenuItem(
