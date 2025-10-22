@@ -33,4 +33,18 @@ interface ScheduleDao {
 
     @Query("SELECT * FROM exercises WHERE scheduleId = :scheduleId ORDER BY id DESC")
     fun getExercisesByScheduleId(scheduleId: Int): Flow<List<Exercise>>
+
+    // --- Workout Session & Log Operations ---
+
+    @Insert
+    suspend fun insertWorkoutSession(session: WorkoutSession): Long
+
+    @Update
+    suspend fun updateWorkoutSession(session: WorkoutSession)
+
+    @Insert
+    suspend fun insertWorkoutLog(log: WorkoutLog)
+
+    @Query("SELECT * FROM workout_logs WHERE sessionId = :sessionId ORDER BY timestamp DESC")
+    fun getLogsForSession(sessionId: Int): Flow<List<WorkoutLog>>
 }
