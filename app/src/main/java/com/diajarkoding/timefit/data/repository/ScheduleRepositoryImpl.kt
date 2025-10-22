@@ -31,6 +31,10 @@ class ScheduleRepositoryImpl @Inject constructor(
         dao.insertExercise(exercise)
     }
 
+    suspend fun updateExercise(exercise: Exercise) {
+        dao.updateExercise(exercise)
+    }
+
     suspend fun deleteExercise(exercise: Exercise) {
         dao.deleteExercise(exercise)
     }

@@ -9,6 +9,8 @@ data class ScheduleDetailState(
     val exercises: List<Exercise> = emptyList(),
     val isAddExerciseDialogOpen: Boolean = false,
 
+    val exerciseToEdit: Exercise? = null,
+
     // State untuk dialog tambah latihan
     val exerciseName: String = "",
     val sets: String = "",
@@ -22,10 +24,12 @@ data class ScheduleDetailState(
 sealed class ScheduleDetailEvent {
     data class OnDeleteExercise(val exercise: Exercise) : ScheduleDetailEvent()
 
+    data class OnEditExerciseClick(val exercise: Exercise) : ScheduleDetailEvent()
+
     // Event untuk dialog
     object OnShowAddExerciseDialog : ScheduleDetailEvent()
     object OnDismissAddExerciseDialog : ScheduleDetailEvent()
-    object OnCreateExercise : ScheduleDetailEvent()
+    object OnSaveExercise : ScheduleDetailEvent()
     data class OnExerciseNameChange(val name: String) : ScheduleDetailEvent()
     data class OnSetsChange(val sets: String) : ScheduleDetailEvent()
     data class OnRepsChange(val reps: String) : ScheduleDetailEvent()
